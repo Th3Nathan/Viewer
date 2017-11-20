@@ -7,9 +7,10 @@ import Msgs exposing (Msg)
 import Models exposing (PlayerId, Player)
 import RemoteData 
 
+
 fetchPlayers : Cmd Msg 
 fetchPlayers = 
-    Http.get fetchPlayersUrl playersDecoder 
+    Http.get fetchPlayersUrl responseDecoder
         |> RemoteData.sendRequest 
         |> Cmd.map Msgs.OnFetchPlayers 
 
@@ -27,3 +28,7 @@ playerDecoder =
         |> required "id" Decode.string 
         |> required "name" Decode.string 
         |> required "level" Decode.int
+
+responseDecoder : Decode.Decoder (List Player)
+responseDecoder =
+    Decode.field "players" playersDecoder
