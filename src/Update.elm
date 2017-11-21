@@ -6,12 +6,15 @@ import Commands exposing (fetchStories)
 import Http exposing (..)
 import Msgs exposing (..)
 import Time exposing (inMilliseconds)
+import Material exposing (..)
 
 idsPerPage : Int -> List Int -> List Int 
 idsPerPage pageNum allIds = 
         List.take (pageNum * 30) allIds
 
-update : Msg -> Model -> ( Model, Cmd Msgs.Msg )
+
+
+update : Msgs.Msg -> Models.Model -> ( Models.Model, Cmd Msgs.Msg )
 update msg model =
     case msg of
         OnFetchStory (Result.Ok story) ->
@@ -28,5 +31,7 @@ update msg model =
             (model, Cmd.none )
         SetTime time -> 
             ({ model | time = (floor (inMilliseconds time))}, Cmd.none )
+        Msgs.Mdl message_ -> 
+            Material.update Mdl message_ model 
 
 
