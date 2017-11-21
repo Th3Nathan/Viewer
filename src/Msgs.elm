@@ -1,7 +1,9 @@
 module Msgs exposing (..)
 
-import Models exposing (Player)
-import RemoteData exposing (WebData)
+import Models exposing (Story)
+import Http exposing (..)
 
 type Msg
-    = OnFetchPlayers (WebData (List Player))
+    = OnFetchStoryIds (Result Http.Error (List Int))
+    | OnFetchStories (Result Http.Error (List Story))
+    | OnFetchStory (Result Http.Error Story)
