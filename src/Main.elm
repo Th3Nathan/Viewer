@@ -9,7 +9,7 @@ import Commands exposing (fetchStories, fetchStoryIds)
 
 init : ( Model, Cmd Msg )
 init =
-    ( initialModel, Cmd.none )
+    ( initialModel, fetchStoryIds )
 
 
 subscriptions : Model -> Sub Msg

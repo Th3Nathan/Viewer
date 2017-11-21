@@ -11,11 +11,11 @@ idsPerPage : Int -> List Int -> List Int
 idsPerPage pageNum allIds = 
         List.take (pageNum * 30) allIds
 
-update : Msg -> a -> ( a, Cmd Msgs.Msg )
+update : Msg -> Model -> ( Model, Cmd Msgs.Msg )
 update msg model =
     case msg of
         OnFetchStory (Result.Ok story) ->
-            (model, Cmd.none )
+            ({model | stories = (story :: model.stories)}, Cmd.none )
         OnFetchStory (Result.Err _) ->
             (model, Cmd.none )
         OnFetchStoryIds (Result.Ok ids) ->
@@ -23,7 +23,7 @@ update msg model =
         OnFetchStoryIds (Result.Err _) ->
             (model, Cmd.none )
         OnFetchStories (Result.Ok stories) ->
-            (model, Cmd.none )
+            ({ model | stories = stories }, Cmd.none )
         OnFetchStories (Result.Err _) ->
             (model, Cmd.none )
 
