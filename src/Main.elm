@@ -6,6 +6,7 @@ import Models exposing (Model, initialModel)
 import Update exposing (update)
 import View exposing (page)
 import Commands exposing (fetchStories, fetchStoryIds)
+import Time exposing (every, second)
 
 init : ( Model, Cmd Msg )
 init =
@@ -14,7 +15,10 @@ init =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    Sub.batch 
+    [
+        every second Msgs.SetTime
+    ]
 
 
 

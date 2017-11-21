@@ -8,4 +8,4 @@ import Stories.Stories
 
 page : Model -> Html Msg
 page model =
-        Stories.Stories.view model.stories
+        Stories.Stories.view model.stories model.time

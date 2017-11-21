@@ -5,7 +5,7 @@ import Models exposing (Model, Story)
 import Commands exposing (fetchStories)
 import Http exposing (..)
 import Msgs exposing (..)
-
+import Time exposing (inMilliseconds)
 
 idsPerPage : Int -> List Int -> List Int 
 idsPerPage pageNum allIds = 
@@ -26,5 +26,7 @@ update msg model =
             ({ model | stories = stories }, Cmd.none )
         OnFetchStories (Result.Err _) ->
             (model, Cmd.none )
+        SetTime time -> 
+            ({ model | time = (floor (inMilliseconds time))}, Cmd.none )
 
 

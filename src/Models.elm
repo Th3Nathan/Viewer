@@ -1,14 +1,17 @@
 module Models exposing (..)
 
+
 type alias Model =
     { storyIds : List Int 
     , stories : List Story
+    , time : Int
     }
 
 initialModel : Model 
 initialModel = 
     { storyIds = []
     , stories = []
+    , time = 0
     }
 
 

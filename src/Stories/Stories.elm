@@ -4,13 +4,13 @@ import Html exposing (..)
 import Html.Attributes exposing (class)
 import Msgs exposing (Msg)
 import Models exposing (Story)
+import Util exposing (timeAgo)
 
-
-view : List Story -> Html Msg
-view response = 
+view : List Story -> Int -> Html Msg
+view stories time = 
     div []
         [ nav
-        ,  list response
+        ,  list stories time 
         ]
         
 
@@ -19,8 +19,8 @@ nav =
     div [ class "clearfix mb2 white bg-black" ]
         [ div [ class "left p2"] [text "Items"] ]
 
-list : List Story -> Html Msg 
-list items = 
+list : List Story -> Int -> Html Msg 
+list stories time = 
     div [ class "p2" ]
         [ table [] 
             [ thead []
@@ -35,19 +35,19 @@ list items =
                     , th [] [ text "Type" ]
                     ]
                 ]
-            , tbody [] (List.map itemRow items)
+            , tbody [] (List.map (storyRow time) stories)
             ]
         ]
 
-itemRow : Story -> Html Msg 
-itemRow item = 
+storyRow : Int -> Story -> Html Msg 
+storyRow time story = 
     tr [] 
-        [ td [] [ text item.by ]
-        , td [] [ text (toString item.descendants) ]
-        , td [] [ text (toString item.id) ]
-        , td [] [ text (toString item.score) ]
-        , td [] [ text (toString item.time) ]
-        , td [] [ text item.title ]
-        , td [] [ text item.url ]
-        , td [] [ text item.type_ ]
+        [ td [] [ text story.by ]
+        , td [] [ text (toString story.descendants) ]
+        , td [] [ text (toString story.id) ]
+        , td [] [ text (toString story.score) ]
+        , td [] [ text (timeAgo time story.time) ]
+        , td [] [ text story.title ]
+        , td [] [ text story.url ]
+        , td [] [ text story.type_ ]
         ]
