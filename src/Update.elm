@@ -22,7 +22,7 @@ update msg model =
         OnFetchStory (Result.Err _) ->
             (model, Cmd.none )
         OnFetchStoryIds (Result.Ok ids) ->
-            (model, (fetchStories [1, 2, 3]))
+            (model, (fetchStories (idsPerPage 1 ids)))
         OnFetchStoryIds (Result.Err _) ->
             (model, Cmd.none )
         OnFetchStories (Result.Ok stories) ->
@@ -32,6 +32,11 @@ update msg model =
         SetTime time -> 
             ({ model | time = (floor (inMilliseconds time))}, Cmd.none )
         Msgs.Mdl message_ -> 
-            Material.update Mdl message_ model 
+            Material.update Mdl message_ model
+        Msgs.SelectTab num -> 
+            let 
+                _ = 
+                    Debug.log "SelectTab: " num 
+            in model ! []  
 
 

@@ -13,3 +13,4 @@ type Msg
     | OnFetchStory (Result Http.Error Story)
     | SetTime Time 
     | Mdl (Material.Msg Msg)
+    | SelectTab Int 

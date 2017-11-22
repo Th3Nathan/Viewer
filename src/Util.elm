@@ -1,5 +1,6 @@
 module Util exposing (..)
 import Tuple exposing (first, second)
+import Regex 
 
 timeData : Int -> Int -> (Int, String)
 timeData current past = 
@@ -35,3 +36,24 @@ timeAgo current past =
         data = timeData current past 
     in 
         toString (first data)  ++ " " ++ (pluralize (second data) (first data) ) ++ " ago"
+
+chopHttp : String -> String 
+chopHttp url =
+    if (String.slice 0 8 url == "https://") then 
+        String.slice 8 (String.length url - 1) url 
+    else if (String.slice 0 7 url == "http://") then 
+        String.slice 7 (String.length url - 1) url 
+    else url 
+
+getDomain : String -> String 
+getDomain url = 
+    let 
+        afterhttp = chopHttp url
+        slashplaces = String.indices "/" afterhttp
+        firstPlace = List.head slashplaces
+
+    in 
+        case firstPlace of 
+            Nothing -> url 
+            Just firstPlace -> (String.slice 0 firstPlace afterhttp) 
+
