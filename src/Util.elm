@@ -42,16 +42,22 @@ timeAgo : Int -> Int -> String
 timeAgo current past = 
     let
         data = timeData current past 
+        singular = second data 
+        itemsCount = first data 
     in 
-        toString (first data)  ++ " " ++ (pluralize (second data) (first data) ) ++ " ago"
+        toString itemsCount
+        ++ " "
+        ++ (pluralize singular itemsCount )
+        ++ " ago"
 
 chopHttp : String -> String 
 chopHttp url =
-    if (String.slice 0 8 url == "https://") then 
+    if String.slice 0 8 url == "https://" then 
         String.slice 8 (String.length url - 1) url 
-    else if (String.slice 0 7 url == "http://") then 
+    else if String.slice 0 7 url == "http://" then 
         String.slice 7 (String.length url - 1) url 
-    else url 
+    else 
+        url 
 
 getDomain : String -> String 
 getDomain url = 
@@ -59,7 +65,6 @@ getDomain url =
         afterhttp = chopHttp url
         slashplaces = String.indices "/" afterhttp
         firstPlace = List.head slashplaces
-
     in 
         case firstPlace of 
             Nothing -> url 

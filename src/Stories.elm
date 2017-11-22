@@ -1,4 +1,4 @@
-module Stories.Stories exposing (..)
+module Stories exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (class)
@@ -22,9 +22,19 @@ view model =
     , Layout.onSelectTab Msgs.SelectTab
     , Layout.selectedTab model.selectedTab
     ]
-    { header = [h3 [ style [ ( "text-align", "center" ), ("margin-bottom", "5px") ] ] [ text "Hacker News"] ]
+    { header = 
+        [ h3 
+            [ style [ ( "text-align", "center" ), ("margin-bottom", "5px") ] ]
+            [ text "Hacker News"]
+        ]
     , drawer = [] 
-    , tabs = ( [text "New", text "Comments", text "Rating" ], [Options.attribute (Html.Attributes.style [("justify-content", "center"), ("cursor", "pointer"), ("padding-left", "90px")])] )
+    , tabs = ( 
+            [text "New", text "Comments", text "Rating" ]
+            , [Options.attribute (Html.Attributes.style 
+                [ ("justify-content", "center")
+                , ("cursor", "pointer")
+                , ("padding-left", "90px")])
+            ])
     , main = [ handleLoading model ]
     }
 
@@ -46,6 +56,14 @@ nav =
     div [ class "clearfix mb2 white bg-black" ]
         [ div [ class "left p2"] [text "Items"] ]
 
+infotext : Int -> Story -> String 
+infotext time story = 
+    (Util.timeAgo time story.time)
+        ++ "  Comments: "
+        ++ (toString story.descendants)
+        ++ ("  Score: " ++ (toString story.score))
+    
+
 list : Model -> Html Msg 
 list model = 
     div [ class "p2"
@@ -57,10 +75,9 @@ list model =
 storyRow : Int -> Story -> Html Msg 
 storyRow time story = 
     List.li 
-        [
-            List.withSubtitle
-            , Color.text Color.primaryDark
-            , Color.background (Color.color Color.Teal Color.S100)
+        [ List.withSubtitle
+        , Color.text Color.primaryDark
+        , Color.background (Color.color Color.Teal Color.S100)
         ] 
         [ List.content [] 
             [ a 
@@ -83,7 +100,7 @@ storyRow time story =
                 [
                     List.subtitle [] 
                     [
-                        text ((Util.timeAgo time story.time) ++ ("  Comments: " ++ (toString story.descendants) ++ ("  Score: " ++ (toString story.score)))) 
+                        text (infotext time story) 
                     ]
                 ]
             ]

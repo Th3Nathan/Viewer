@@ -12,7 +12,6 @@ init : ( Model, Cmd Msg )
 init =
     ( initialModel, fetchStoryIds )
 
-
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch 
@@ -20,10 +19,7 @@ subscriptions model =
         every second Msgs.SetTime
     ]
 
-
-
 -- MAIN
-
 
 main : Program Never Model Msg
 main =
