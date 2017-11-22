@@ -7,7 +7,7 @@ import Http exposing (..)
 import Msgs exposing (..)
 import Time exposing (inMilliseconds)
 import Material exposing (..)
-
+import Util exposing (Category, sortBy)
 idsPerPage : Int -> List Int -> List Int 
 idsPerPage pageNum allIds = 
         List.take (pageNum * 30) allIds
@@ -21,9 +21,9 @@ update msg model =
     case msg of
         OnFetchStory (Result.Ok story) ->
             if ( model.toDownload == 1) then 
-                ({model | stories = (story :: model.sorted)}, Cmd.none )
+                ({model | stories = (sortBy Util.New (story :: model.collectedStories))}, Cmd.none )
             else 
-                ({model | sorted = (story :: model.sorted), toDownload = model.toDownload - 1}, Cmd.none )
+                ({model | collectedStories = (story :: model.collectedStories), toDownload = model.toDownload - 1}, Cmd.none )
         OnFetchStory (Result.Err _) ->
             ({model | toDownload = model.toDownload - 1}, Cmd.none )
         OnFetchStoryIds (Result.Ok ids) ->
@@ -41,10 +41,16 @@ update msg model =
             ({ model | time = (floor (inMilliseconds time))}, Cmd.none )
         Msgs.Mdl message_ -> 
             Material.update Mdl message_ model
-        Msgs.SelectTab num -> 
-            let 
-                _ = 
-                    Debug.log "SelectTab: " num 
-            in model ! []  
+        Msgs.SelectTab tab -> 
+            (sortByTab tab model)
 
 
+categoryFromTab : Int -> Category 
+categoryFromTab tab = 
+    if tab == 0 then Util.New 
+    else if tab == 1 then Util.Comments 
+    else Util.Rating
+
+sortByTab : Int -> Models.Model -> ( Models.Model, Cmd Msgs.Msg )
+sortByTab tab model = 
+    ({model | stories = sortBy (categoryFromTab tab) model.collectedStories}, Cmd.none)

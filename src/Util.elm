@@ -1,6 +1,14 @@
 module Util exposing (..)
 import Tuple exposing (first, second)
-import Regex 
+import Models exposing (Story)
+
+type Category = New | Comments | Rating 
+sortBy : Category -> List Story -> List Story 
+sortBy category stories = 
+    case category of 
+        New -> List.sortBy (\a -> a.time * -1) stories 
+        Comments -> List.sortBy (\a -> a.descendants * -1) stories 
+        Rating -> List.sortBy (\a -> a.score * -1) stories 
 
 timeData : Int -> Int -> (Int, String)
 timeData current past = 

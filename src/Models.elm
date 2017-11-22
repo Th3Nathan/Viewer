@@ -6,7 +6,7 @@ type alias Model =
     , stories : List Story
     , time : Int
     , mdl : Material.Model 
-    , sorted : List Story
+    , collectedStories : List Story
     , toDownload : Int 
     }
 
@@ -16,7 +16,7 @@ initialModel =
     , stories = []
     , time = 0
     , mdl = Material.model
-    , sorted = []
+    , collectedStories = []
     , toDownload = 0
     }
 
