@@ -6,8 +6,6 @@ import Json.Decode.Pipeline exposing (decode, required)
 import Models exposing (Story)
 import Msgs exposing (..)
 
-
-
 fetchStoryIds : Cmd Msg
 fetchStoryIds = 
     Http.send Msgs.OnFetchStoryIds (Http.get fetchStoriesUrl idsDecoder)

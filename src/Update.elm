@@ -12,17 +12,25 @@ idsPerPage : Int -> List Int -> List Int
 idsPerPage pageNum allIds = 
         List.take (pageNum * 30) allIds
 
-
+-- when all the data comes in, trigger an event to take the list, sort it, and put it in a sorted slice of state. 
+-- check if all data comes in by triggering event when each story comes in, check if length of storeis == the boss 
+--doesnt work, use task instead of command batch 
 
 update : Msgs.Msg -> Models.Model -> ( Models.Model, Cmd Msgs.Msg )
 update msg model =
     case msg of
         OnFetchStory (Result.Ok story) ->
-            ({model | stories = (story :: model.stories)}, Cmd.none )
+            if ( model.toDownload == 1) then 
+                ({model | stories = (story :: model.sorted)}, Cmd.none )
+            else 
+                ({model | sorted = (story :: model.sorted), toDownload = model.toDownload - 1}, Cmd.none )
         OnFetchStory (Result.Err _) ->
-            (model, Cmd.none )
+            ({model | toDownload = model.toDownload - 1}, Cmd.none )
         OnFetchStoryIds (Result.Ok ids) ->
-            (model, (fetchStories (idsPerPage 1 ids)))
+            let 
+                numIds = List.length ids 
+            in 
+                ({model | storyIds = ids, toDownload = numIds}, (fetchStories ids))
         OnFetchStoryIds (Result.Err _) ->
             (model, Cmd.none )
         OnFetchStories (Result.Ok stories) ->

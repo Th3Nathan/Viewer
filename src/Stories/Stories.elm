@@ -21,9 +21,9 @@ view model =
     [ Layout.fixedHeader
     , Layout.onSelectTab Msgs.SelectTab
     ]
-    { header = [h3 [ style [ ( "text-align", "center" ) ] ] [ text "Hacker News"] ]
+    { header = [h3 [ style [ ( "text-align", "center" ), ("margin-bottom", "5px") ] ] [ text "Hacker News"] ]
     , drawer = [] 
-    , tabs = ( [text "New", text "Comments", text "Rating" ], [] )
+    , tabs = ( [text "New", text "Comments", text "Rating" ], [Options.attribute (Html.Attributes.style [("justify-content", "center"), ("padding-left", "90px")])] )
     , main = [ list model ]
     }
 
