@@ -8,6 +8,7 @@ type alias Model =
     , mdl : Material.Model 
     , collectedStories : List Story
     , toDownload : Int 
+    , selectedTab : Int
     }
 
 initialModel : Model 
@@ -18,6 +19,7 @@ initialModel =
     , mdl = Material.model
     , collectedStories = []
     , toDownload = 0
+    , selectedTab = 0
     }
 
 

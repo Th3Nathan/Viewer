@@ -53,4 +53,4 @@ categoryFromTab tab =
 
 sortByTab : Int -> Models.Model -> ( Models.Model, Cmd Msgs.Msg )
 sortByTab tab model = 
-    ({model | stories = sortBy (categoryFromTab tab) model.collectedStories}, Cmd.none)
+    ({model | stories = sortBy (categoryFromTab tab) model.collectedStories, selectedTab = tab}, Cmd.none)

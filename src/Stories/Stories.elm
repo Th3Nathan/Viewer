@@ -9,21 +9,21 @@ import Material.Layout as Layout
 import Html.Attributes exposing(style)
 import Material.Color as Color
 import Material.Scheme
-import Material.Table as Table
 import Material.List as List exposing (ul, li)
 import Material.Options as Options 
 
 view : Model -> Html Msg
 view model = 
-    Material.Scheme.topWithScheme Color.LightBlue Color.Orange <|
+    Material.Scheme.topWithScheme Color.Teal Color.Orange <|
     Layout.render Msgs.Mdl
     model.mdl
     [ Layout.fixedHeader
     , Layout.onSelectTab Msgs.SelectTab
+    , Layout.selectedTab model.selectedTab
     ]
     { header = [h3 [ style [ ( "text-align", "center" ), ("margin-bottom", "5px") ] ] [ text "Hacker News"] ]
     , drawer = [] 
-    , tabs = ( [text "New", text "Comments", text "Rating" ], [Options.attribute (Html.Attributes.style [("justify-content", "center"), ("padding-left", "90px")])] )
+    , tabs = ( [text "New", text "Comments", text "Rating" ], [Options.attribute (Html.Attributes.style [("justify-content", "center"), ("cursor", "pointer"), ("padding-left", "90px")])] )
     , main = [ list model ]
     }
 
@@ -46,7 +46,7 @@ storyRow time story =
         [
             List.withSubtitle
             , Color.text Color.primaryDark
-            , Color.background (Color.color Color.LightBlue Color.S100)
+            , Color.background (Color.color Color.Teal Color.S100)
         ] 
         [ List.content [] 
             [ a 
