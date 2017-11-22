@@ -33,7 +33,7 @@ view model =
             , [Options.attribute (Html.Attributes.style 
                 [ ("justify-content", "center")
                 , ("cursor", "pointer")
-                , ("padding-left", "90px")])
+                ])
             ])
     , main = [ handleLoading model ]
     }
