@@ -11,6 +11,7 @@ import Material.Color as Color
 import Material.Scheme
 import Material.List as List exposing (ul, li)
 import Material.Options as Options 
+import Material.Progress as Loading
 
 view : Model -> Html Msg
 view model = 
@@ -24,8 +25,21 @@ view model =
     { header = [h3 [ style [ ( "text-align", "center" ), ("margin-bottom", "5px") ] ] [ text "Hacker News"] ]
     , drawer = [] 
     , tabs = ( [text "New", text "Comments", text "Rating" ], [Options.attribute (Html.Attributes.style [("justify-content", "center"), ("cursor", "pointer"), ("padding-left", "90px")])] )
-    , main = [ list model ]
+    , main = [ handleLoading model ]
     }
+
+handleLoading : Model -> Html Msg 
+handleLoading model = 
+    let 
+        toGo = model.toDownload 
+        fetched = List.length model.collectedStories 
+        ratio = (toFloat fetched) / (toFloat toGo)
+        percent = ratio * 100 
+    in 
+        if (List.length model.stories == 0) then
+            Loading.progress percent
+        else 
+            list model 
 
 nav : Html Msg 
 nav = 
@@ -91,14 +105,3 @@ storyRow time story =
                 ]
             ]    
         ]
-
-
-
-        --         Table.td [] [ text story.by ]
-        -- , Table.td [] [ text (toString story.descendants) ]
-        -- , Table.td [] [ text (toString story.id) ]
-        -- , Table.td [] [ text (toString story.score) ]
-        -- , Table.td [] [ text (timeAgo time story.time) ]
-        -- , Table.td [] [ text story.title ]
-        -- , Table.td [] [ text story.url ]
-        -- , Table.td [] [ text story.type_ ]
